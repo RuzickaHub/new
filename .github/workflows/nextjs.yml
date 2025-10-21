@@ -1,73 +1,62 @@
-name: Deploy Next.js site to Pages
 
-on:
-  push:
-    branches: [ main ]
-
-env:
-  # Pokud je tvá aplikace v podadresáři, změň '.' na 'frontend' nebo jiný path
-  PROJECT_DIR: '.'
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies (supports yarn or npm)
-        run: |
-          cd "$PROJECT_DIR"
-          if [ -f "yarn.lock" ]; then
-            echo "Using yarn"
-            yarn install --frozen-lockfile || yarn install
-          elif [ -f "package-lock.json" ]; then
-            echo "Using npm (ci)"
-            npm ci
-          elif [ -f "package.json" ]; then
-            echo "Using npm (install)"
-            npm install
-          else
-            echo "No package.json or lockfile found in $PROJECT_DIR" && exit 1
-          fi
-
-      - name: Build
-        run: |
-          cd "$PROJECT_DIR"
-          # Podpora pro npm nebo yarn build
-          npm run build || yarn build
-
-      - name: Export static site (if using next export)
-        run: |
-          cd "$PROJECT_DIR"
-          # Pokusíme se exportovat, ale pokud nemáš export script, nebudeme tímto krokem failovat
-          npm run export || yarn export || true
-
-      - name: Verify output directory
-        run: |
-          # Standardní output pro `next export` je `out`
-          if [ -d "$PROJECT_DIR/out" ]; then
-            echo "Found static export at $PROJECT_DIR/out"
-          else
-            echo "No $PROJECT_DIR/out directory found."
-            echo "If you use `next export`, ensure your build creates an 'out' folder."
-            echo "If you deploy a non-exported Next app to Pages, adjust this workflow accordingly."
-            exit 1
-          fi
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ${{ env.PROJECT_DIR }}/out
-
-      - name: Deploy to Pages
-        uses: actions/deploy-pages@v1
+2s
+Current runner version: '2.329.0'
+Runner Image Provisioner
+  Hosted Compute Agent
+  Version: 20250912.392
+  Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+  Build Date: 2025-09-12T15:23:14Z
+Operating System
+  Ubuntu
+  24.04.3
+  LTS
+Runner Image
+  Image: ubuntu-24.04
+  Version: 20250929.60.1
+  Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+  Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+GITHUB_TOKEN Permissions
+  Contents: read
+  Metadata: read
+  Packages: read
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/configure-pages@v3' (SHA:b8130d9ab958b325bbde9786d62f2c97a9885a0e)
+Download action repository 'actions/upload-pages-artifact@v1' (SHA:84bb4cd4b733d5c320c9c9cfbc354937524f4d64)
+Download action repository 'actions/deploy-pages@v1' (SHA:f27bcc15848fdcdcc02f01754eb838e44bcf389b)
+Getting action download info
+Error: This request has been automatically failed because it uses a deprecated version of `actions/upload-artifact: v3`. Learn more: https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/
+Current runner version: '2.329.0'
+Runner Image Provisioner
+  Hosted Compute Agent
+  Version: 20250912.392
+  Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+  Build Date: 2025-09-12T15:23:14Z
+Operating System
+  Ubuntu
+  24.04.3
+  LTS
+Runner Image
+  Image: ubuntu-24.04
+  Version: 20250929.60.1
+  Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+  Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+GITHUB_TOKEN Permissions
+  Contents: read
+  Metadata: read
+  Packages: read
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/configure-pages@v3' (SHA:b8130d9ab958b325bbde9786d62f2c97a9885a0e)
+Download action repository 'actions/upload-pages-artifact@v1' (SHA:84bb4cd4b733d5c320c9c9cfbc354937524f4d64)
+Download action repository 'actions/deploy-pages@v1' (SHA:f27bcc15848fdcdcc02f01754eb838e44bcf389b)
+Getting action download info
+Error: This request has been automatically failed because it uses a deprecated version of `actions/upload-artifact: v3`. Learn more: https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/
