@@ -42,18 +42,18 @@ jobs:
           cd "$PROJECT_DIR"
           npm run build || yarn build
 
-      - name: Export static site (if using next export)
+      - name: Prepare Pages artifact (use out/ or docs/)
         run: |
           cd "$PROJECT_DIR"
-          npm run export || yarn export || true
-
-      - name: Verify output directory
-        run: |
-          if [ -d "$PROJECT_DIR/out" ]; then
+          if [ -d "out" ]; then
             echo "Found static export at $PROJECT_DIR/out"
+          elif [ -d "docs" ]; then
+            echo "Found docs/ — copying to out/"
+            rm -rf out || true
+            cp -r docs out
           else
-            echo "No $PROJECT_DIR/out directory found."
-            echo "If you use `next export`, ensure your build creates an 'out' folder."
+            echo "No out/ or docs/ directory found."
+            echo "If your project requires a static export, add an 'export' script (next export) or place static files into the 'docs/' directory."
             exit 1
           fi
 
@@ -68,4 +68,3 @@ jobs:
 
       - name: Deploy to Pages
         uses: actions/deploy-pages@v1
-        
